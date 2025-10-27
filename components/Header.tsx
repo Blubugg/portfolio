@@ -10,7 +10,7 @@ interface HeaderTextContent {
   role: string;
   desc: string;
   contact: string;
-  view: string; // ubah dari "download" ke "view"
+  view: string;
 }
 
 type HeaderTextType = Record<Language, HeaderTextContent>;
@@ -21,6 +21,10 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ language }) => {
   const typedHeaderText = headerText as HeaderTextType;
+
+  // Tentukan file CV berdasarkan bahasa
+  const cvFile =
+    language === "id" ? "/CV_Indonesia.pdf" : "/CV_English.pdf";
 
   return (
     <div
@@ -107,8 +111,8 @@ const Header: React.FC<HeaderProps> = ({ language }) => {
             initial={{ y: 30, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 1.2 }}
-            href="/sample-resume.pdf"
-            target="_blank" // buka di tab baru
+            href={cvFile}
+            target="_blank"
             rel="noopener noreferrer"
             className="sm:w-[215px] w-[170px] px-8 sm:px-10 py-3 sm:py-4 rounded-full bg-lightHover text-textLight flex items-center justify-center gap-2 text-sm sm:text-base md:text-lg shadow-md hover:shadow-lg"
           >
