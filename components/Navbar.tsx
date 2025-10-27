@@ -5,10 +5,10 @@ import React, { useEffect, useRef, useState } from "react";
 type Language = "en" | "id";
 
 interface NavbarProps {
-  isDarkMode: boolean
-  setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>
-  language: Language
-  setLanguage: React.Dispatch<React.SetStateAction<Language>>
+  isDarkMode: boolean;
+  setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+  language: Language;
+  setLanguage: React.Dispatch<React.SetStateAction<Language>>;
 }
 
 const Navbar: React.FC<NavbarProps> = ({
@@ -19,21 +19,21 @@ const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const [isScroll, setIsScroll] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>("home");
-  const sideMenuRef = useRef<HTMLUListElement | null>(null);
+  const sideMenuRef = useRef<HTMLDivElement | null>(null);
 
   const openMenu = () => {
     if (sideMenuRef.current) {
-      sideMenuRef.current.style.transform = "translateX(-16rem)";
+      sideMenuRef.current.style.transform = "translateX(0)";
     }
   };
 
   const closeMenu = () => {
     if (sideMenuRef.current) {
-      sideMenuRef.current.style.transform = "translateX(16rem)";
+      sideMenuRef.current.style.transform = "translateX(100%)";
     }
   };
 
-  // ===== Scroll + Active Section Detection =====
+  // ===== Scroll & Active Section Detection =====
   useEffect(() => {
     const handleScroll = () => {
       setIsScroll(window.scrollY > 50);
@@ -91,7 +91,7 @@ const Navbar: React.FC<NavbarProps> = ({
               <li key={id}>
                 <a
                   href={`#${id}`}
-                  className={`font-Ovo relative px-1 
+                  className={`relative px-1 
                     ${
                       activeSection === id
                         ? "text-primary font-semibold"
@@ -99,47 +99,45 @@ const Navbar: React.FC<NavbarProps> = ({
                     }`}
                 >
                   {navText[language][id]}
-                  {/* animated underline (only animate on active change, not theme) */}
                   <span
                     className={`absolute left-0 -bottom-[3px] h-[2px] rounded-full ${
                       activeSection === id
                         ? "w-full opacity-100 bg-current transition-all duration-300 ease-in-out"
                         : "w-0 opacity-0 bg-current transition-all duration-300 ease-in-out"
                     }`}
-                    style={{
-                      transitionProperty: "width, opacity",
-                    }}
+                    style={{ transitionProperty: "width, opacity" }}
                   />
                 </a>
               </li>
             ))}
           </ul>
 
-          {/* ===== Icons (Theme + Language + Menu) ===== */}
-          <div className="flex items-center gap-6 ml-20">
-            {/* 🌗 Theme toggle */}
-            <button
-              onClick={() => setIsDarkMode((prev) => !prev)}
-              className="transition-none"
-            >
-              <Image
-                src={isDarkMode ? assets.sun_icon : assets.moon_icon}
-                alt="theme toggle"
-                className="w-6"
-              />
-            </button>
+          {/* ===== Right Icons ===== */}
+          <div className="flex items-center gap-4 lg:pl-[50px] md:pl-[50px] sm:pl-0">
+            {/* 🌗 Theme toggle + 🌍 Language toggle (hanya tampil di desktop) */}
+            <div className="hidden md:flex items-center gap-4">
+              <button
+                onClick={() => setIsDarkMode((prev) => !prev)}
+                className="transition-none"
+              >
+                <Image
+                  src={isDarkMode ? assets.sun_icon : assets.moon_icon}
+                  alt="theme toggle"
+                  className="w-6"
+                />
+              </button>
 
-            {/* 🌍 Language toggle */}
-            <button
-              onClick={toggleLanguage}
-              className="relative text-xl font-medium text-gray-800 dark:text-gray-200 group transition-none"
-            >
-              {language === "en" ? "ID" : "EN"}
-              <span className="absolute left-0 bottom-0 w-full h-[1px] bg-gray-800 dark:bg-gray-200 scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-100 transition-all duration-200 origin-left" />
-            </button>
+              <button
+                onClick={toggleLanguage}
+                className="relative text-xl font-medium text-gray-800 dark:text-gray-200 group transition-none"
+              >
+                {language === "en" ? "ID" : "EN"}
+                <span className="absolute left-0 bottom-0 w-full h-[1px] bg-gray-800 dark:bg-gray-200 scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-100 transition-all duration-200 origin-left" />
+              </button>
+            </div>
 
-            {/* 🍔 Mobile Menu */}
-            <button className="block md:hidden ml-3" onClick={openMenu}>
+            {/* 🍔 Mobile Menu Button */}
+            <button className="block md:hidden" onClick={openMenu}>
               <Image
                 src={isDarkMode ? assets.menu_white : assets.menu_black}
                 alt="menu icon"
@@ -148,31 +146,55 @@ const Navbar: React.FC<NavbarProps> = ({
             </button>
           </div>
         </div>
+      </nav>
 
-        {/* ===== Mobile Menu ===== */}
-        <ul
-          ref={sideMenuRef}
-          className="flex md:hidden flex-col gap-4 py-20 px-10 fixed -right-64 top-0 bottom-0 w-64 z-50 h-screen bg-lightHover text-textLight transition duration-500 dark:bg-darkHover dark:text-textDark"
-        >
-          <div className="absolute right-6 top-6" onClick={closeMenu}>
+      {/* ===== Fullscreen Mobile Menu ===== */}
+      <div
+        ref={sideMenuRef}
+        className="fixed top-0 right-0 w-full h-full bg-lightHover dark:bg-darkHover text-textLight dark:text-textDark flex flex-col justify-center items-center gap-6 transform translate-x-full transition-transform duration-500 z-50"
+      >
+        {/* ===== Top bar (close + toggles) ===== */}
+        <div className="absolute top-6 left-6 flex items-center gap-4">
+          {/* 🌗 Theme toggle */}
+          <button onClick={() => setIsDarkMode((prev) => !prev)}>
             <Image
-              src={isDarkMode ? assets.close_white : assets.close_black}
-              alt="close menu"
-              className="w-5 cursor-pointer"
+              src={isDarkMode ? assets.sun_icon : assets.moon_icon}
+              alt="theme toggle"
+              className="w-6"
             />
-          </div>
+          </button>
 
+          {/* 🌍 Language toggle */}
+          <button
+            onClick={toggleLanguage}
+            className="relative text-lg font-medium text-gray-800 dark:text-gray-200 group"
+          >
+            {language === "en" ? "ID" : "EN"}
+            <span className="absolute left-0 bottom-0 w-full h-[1px] bg-gray-800 dark:bg-gray-200 scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-100 transition-all duration-200 origin-left" />
+          </button>
+        </div>
+
+        {/* Close Button */}
+        <div className="absolute top-6 right-6 cursor-pointer" onClick={closeMenu}>
+          <Image
+            src={isDarkMode ? assets.close_white : assets.close_black}
+            alt="close menu"
+            className="w-5"
+          />
+        </div>
+
+        {/* ===== Centered Menu Links ===== */}
+        <ul className="flex flex-col gap-6 text-center">
           {(["home", "about", "projects", "contact"] as const).map((id) => (
             <li key={id}>
               <a
                 href={`#${id}`}
                 onClick={closeMenu}
-                className={`font-Ovo relative 
-                  ${
-                    activeSection === id
-                      ? "text-primary font-semibold"
-                      : "hover:text-primary"
-                  }`}
+                className={`text-2xl relative ${
+                  activeSection === id
+                    ? "text-primary font-semibold"
+                    : "hover:text-primary"
+                }`}
               >
                 {navText[language][id]}
                 <span
@@ -181,15 +203,13 @@ const Navbar: React.FC<NavbarProps> = ({
                       ? "w-full opacity-100 bg-current transition-all duration-300 ease-in-out"
                       : "w-0 opacity-0 bg-current transition-all duration-300 ease-in-out"
                   }`}
-                  style={{
-                    transitionProperty: "width, opacity",
-                  }}
+                  style={{ transitionProperty: "width, opacity" }}
                 />
               </a>
             </li>
           ))}
         </ul>
-      </nav>
+      </div>
     </>
   );
 };

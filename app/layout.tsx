@@ -1,17 +1,11 @@
 import type { Metadata } from "next";
-import { Outfit, Ovo } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 
-const outfit = Outfit({
+const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-outfit", // optional but recommended
-});
-
-const ovo = Ovo({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-ovo",
+  variable: "--font-poppins",
 });
 
 export const metadata: Metadata = {
@@ -27,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${outfit.className} ${ovo.className} antialiased leading-8 overflow-x-hidden bg-lightTheme dark:bg-darkTheme dark:text-white`}
+        className={`${poppins.className} antialiased leading-8 overflow-x-hidden bg-lightTheme dark:bg-darkTheme dark:text-white`}
       >
         {children}
       </body>

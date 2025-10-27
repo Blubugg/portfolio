@@ -1,6 +1,5 @@
 import React, { useState } from "react"
-import { assets, contactText } from "@/public/assets/assets"
-import Image from "next/image"
+import { contactText } from "@/public/assets/assets"
 import { motion } from "motion/react"
 
 // ✅ Define available languages
@@ -72,7 +71,7 @@ const Contact: React.FC<ContactProps> = ({ isDarkMode, language }) => {
         initial={{ y: -20, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.3 }}
-        className="text-center mb-2 text-lg font-Ovo"
+        className="text-center mb-2 text-lg"
       >
         {typedContactText[language].titleSmall}
       </motion.h4>
@@ -81,7 +80,7 @@ const Contact: React.FC<ContactProps> = ({ isDarkMode, language }) => {
         initial={{ y: -20, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.5 }}
-        className="text-center text-5xl font-Ovo"
+        className="text-center text-5xl"
       >
         {typedContactText[language].titleBig}
       </motion.h2>
@@ -91,7 +90,7 @@ const Contact: React.FC<ContactProps> = ({ isDarkMode, language }) => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.7 }}
-        className="text-center max-w-2xl mx-auto mt-5 mb-12 font-Ovo"
+        className="text-center max-w-2xl mx-auto mt-5 mb-12"
       >
         {typedContactText[language].desc}
       </motion.p>
@@ -145,7 +144,6 @@ const Contact: React.FC<ContactProps> = ({ isDarkMode, language }) => {
           className="py-3 px-8 w-max flex items-center justify-between gap-2 bg-darkHover text-textDark rounded-full mx-auto hover:bg-darkTheme duration-500 dark:bg-darkHover dark:hover:bg-darkTheme"
         >
           {typedContactText[language].submit}
-          <Image src={assets.right_arrow_white} alt="" className="w-4" />
         </motion.button>
 
         <p className="mt-4 text-center">{result}</p>

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 * {
-  font-family: Outfit;
+  @apply font-sans;
 }
 
 .star {

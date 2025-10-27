@@ -20,7 +20,7 @@ import logo_dark from './logo_dark.png';
 import mail_icon from './mail_icon.png';
 import mail_icon_dark from './mail_icon_dark.png';
 import profile_img from './profile-img.png';
-import download_icon from './download-icon.png';
+import document_icon from './document-light.png';
 import hand_icon from './hand-icon.png';
 import header_bg_color from './header-bg-color.png';
 import moon_icon from './moon_icon.png';
@@ -59,7 +59,7 @@ export const assets = {
     mail_icon,
     mail_icon_dark,
     profile_img,
-    download_icon,
+    document_icon,
     hand_icon,
     header_bg_color,
     moon_icon,
@@ -138,14 +138,14 @@ export const headerText = {
     role: "UI/UX Designer and Frontend Web Developer.",
     desc: "I am a Fresh Graduate in Information Technology from Universitas Negeri Yogyakarta with a strong interest in UI/UX design and front-end web development.",
     contact: "Get In Touch",
-    download: "Download CV",
+    view: "View CV",
   },
   id: {
     hi: "Halo! Saya Valentino Banyu Biru",
     role: "UI/UX Designer dan Frontend Web Developer.",
     desc: "Saya adalah lulusan baru dari Program Studi Teknologi Informasi Universitas Negeri Yogyakarta dengan minat yang kuat di bidang desain UI/UX dan pengembangan web front-end.",
     contact: "Hubungi Saya",
-    download: "Unduh CV",
+    view: "Lihat CV",
   },
 };
 
