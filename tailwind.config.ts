@@ -8,13 +8,30 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      colors: {
+        lightTheme: "#FFFFFF",
+        lightHover: "#F3F4F6",
+        textLight: "#1F2937",
+        accentLight: "#2563EB",
+        darkTheme: "#0B0B0F",
+        darkHover: "#1F1F25",
+        textDark: "#F3F4F6",
+        accentDark: "#3B82F6",
       },
+      fontFamily: {
+        Outfit: ["Outfit", "sans-serif"],
+        Ovo: ["Ovo", "serif"],
+      },
+      boxShadow: {
+        'black': '4px 4px 0 #000',
+        'white': '4px 4px 0 #fff',
+      },
+      gridTemplateColumns: {
+        'auto-fit': 'repeat(auto-fit, minmax(200px, 1fr))',
+      }
     },
   },
+  darkMode: 'selector',
   plugins: [],
 };
 export default config;
