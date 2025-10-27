@@ -92,7 +92,7 @@ const Header: React.FC<HeaderProps> = ({ language }) => {
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 1 }}
             href="#contact"
-            className="sm:w-[215px] w-[170px] px-8 sm:px-10 py-3 sm:py-4 rounded-full bg-darkHover text-textDark flex items-center justify-center gap-2 text-sm sm:text-base md:text-lg shadow-md hover:shadow-lg"
+            className="sm:w-[225px] w-[180px] px-8 sm:px-10 py-3 sm:py-4 rounded-full bg-darkHover text-textDark flex items-center justify-center gap-2 text-sm sm:text-base md:text-lg shadow-md hover:shadow-lg"
           >
             {typedHeaderText[language].contact}
             <Image
@@ -114,7 +114,7 @@ const Header: React.FC<HeaderProps> = ({ language }) => {
             href={cvFile}
             target="_blank"
             rel="noopener noreferrer"
-            className="sm:w-[215px] w-[170px] px-8 sm:px-10 py-3 sm:py-4 rounded-full bg-lightHover text-textLight flex items-center justify-center gap-2 text-sm sm:text-base md:text-lg shadow-md hover:shadow-lg"
+            className="sm:w-[225px] w-[180px] px-8 sm:px-10 py-3 sm:py-4 rounded-full bg-lightHover text-textLight flex items-center justify-center gap-2 text-sm sm:text-base md:text-lg shadow-md hover:shadow-lg"
           >
             {typedHeaderText[language].view}
             <Image
