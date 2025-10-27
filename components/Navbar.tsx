@@ -2,17 +2,35 @@ import { assets, navText } from "@/public/assets/assets";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 
-const Navbar = ({ isDarkMode, setIsDarkMode, language, setLanguage }) => {
-  const [isScroll, setIsScroll] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
-  const sideMenuRef = useRef();
+type Language = "en" | "id";
+
+interface NavbarProps {
+  isDarkMode: boolean
+  setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>
+  language: Language
+  setLanguage: React.Dispatch<React.SetStateAction<Language>>
+}
+
+const Navbar: React.FC<NavbarProps> = ({
+  isDarkMode,
+  setIsDarkMode,
+  language,
+  setLanguage,
+}) => {
+  const [isScroll, setIsScroll] = useState<boolean>(false);
+  const [activeSection, setActiveSection] = useState<string>("home");
+  const sideMenuRef = useRef<HTMLUListElement | null>(null);
 
   const openMenu = () => {
-    sideMenuRef.current.style.transform = "translateX(-16rem)";
+    if (sideMenuRef.current) {
+      sideMenuRef.current.style.transform = "translateX(-16rem)";
+    }
   };
 
   const closeMenu = () => {
-    sideMenuRef.current.style.transform = "translateX(16rem)";
+    if (sideMenuRef.current) {
+      sideMenuRef.current.style.transform = "translateX(16rem)";
+    }
   };
 
   // ===== Scroll + Active Section Detection =====
@@ -41,7 +59,7 @@ const Navbar = ({ isDarkMode, setIsDarkMode, language, setLanguage }) => {
   }, []);
 
   const toggleLanguage = () => {
-    setLanguage((prev) => (prev === "en" ? "id" : "en"));
+    setLanguage((prev: Language) => (prev === "en" ? "id" : "en"));
   };
 
   return (
@@ -69,7 +87,7 @@ const Navbar = ({ isDarkMode, setIsDarkMode, language, setLanguage }) => {
               isScroll ? "" : "bg-lightHover shadow-sm dark:bg-darkHover"
             }`}
           >
-            {["home", "about", "projects", "contact"].map((id) => (
+            {(["home", "about", "projects", "contact"] as const).map((id) => (
               <li key={id}>
                 <a
                   href={`#${id}`}
@@ -89,10 +107,7 @@ const Navbar = ({ isDarkMode, setIsDarkMode, language, setLanguage }) => {
                         : "w-0 opacity-0 bg-current transition-all duration-300 ease-in-out"
                     }`}
                     style={{
-                      transitionProperty:
-                        activeSection === id
-                          ? "width, opacity"
-                          : "width, opacity",
+                      transitionProperty: "width, opacity",
                     }}
                   />
                 </a>
@@ -147,7 +162,7 @@ const Navbar = ({ isDarkMode, setIsDarkMode, language, setLanguage }) => {
             />
           </div>
 
-          {["home", "about", "projects", "contact"].map((id) => (
+          {(["home", "about", "projects", "contact"] as const).map((id) => (
             <li key={id}>
               <a
                 href={`#${id}`}
@@ -167,8 +182,7 @@ const Navbar = ({ isDarkMode, setIsDarkMode, language, setLanguage }) => {
                       : "w-0 opacity-0 bg-current transition-all duration-300 ease-in-out"
                   }`}
                   style={{
-                    transitionProperty:
-                      activeSection === id ? "width, opacity" : "width, opacity",
+                    transitionProperty: "width, opacity",
                   }}
                 />
               </a>

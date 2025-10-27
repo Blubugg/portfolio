@@ -1,9 +1,43 @@
 import { workData, projectsText } from '@/public/assets/assets'
 import React from 'react'
 import { motion } from 'motion/react'
+import Image from 'next/image'
 
-const Projects = ({ isDarkMode, language }) => {
+// ✅ Define available languages
+type Language = 'en' | 'id'
 
+// ✅ Define the structure for project text translations
+type ProjectsTextType = {
+  titleSmall: string
+  titleBig: string
+  view: string
+}
+
+// ✅ Define the entire translation object type
+type ProjectsTextObject = {
+  [key in Language]: ProjectsTextType
+}
+
+// ✅ Define the shape for each project
+interface ProjectData {
+  title: string
+  description: string
+  description_id: string
+  bgImage: string
+  link: string
+  tools: string[]
+}
+
+// ✅ Define props
+interface ProjectsProps {
+  language: Language
+}
+
+// ✅ Assert imported data types
+const typedProjectsText = projectsText as ProjectsTextObject
+const typedWorkData = workData as ProjectData[]
+
+const Projects: React.FC<ProjectsProps> = ({ language }) => {
   return (
     <motion.div
       id="projects"
@@ -19,7 +53,7 @@ const Projects = ({ isDarkMode, language }) => {
         transition={{ duration: 0.5, delay: 0.3 }}
         className="text-center mb-2 text-lg font-Ovo"
       >
-        {projectsText[language].titleSmall}
+        {typedProjectsText[language].titleSmall}
       </motion.h4>
 
       <motion.h2
@@ -28,7 +62,7 @@ const Projects = ({ isDarkMode, language }) => {
         transition={{ duration: 0.5, delay: 0.5 }}
         className="text-center text-5xl font-Ovo"
       >
-        {projectsText[language].titleBig}
+        {typedProjectsText[language].titleBig}
       </motion.h2>
 
       {/* Project Cards */}
@@ -38,17 +72,22 @@ const Projects = ({ isDarkMode, language }) => {
         transition={{ duration: 0.6, delay: 0.9 }}
         className="grid justify-center gap-8 my-20 sm:grid-cols-2 lg:grid-cols-3"
       >
-        {workData.map((project, index) => (
+        {typedWorkData.map((project, index) => (
           <div
             key={index}
-            className="p-4 outline-none border-[0.5px] rounded-2xl dark:border-none flex flex-col w-[350px] bg-lightHover bg-opacity-50 backdrop-blur-lg shadow-sm dark:bg-darkHover dark:bg-opacity-50 dark:backdrop-blur-lg dark:shadow-sm"
+            className="p-4 outline-none border-[0.5px] rounded-2xl dark:border-none flex flex-col w-[382px] bg-lightHover bg-opacity-50 backdrop-blur-lg shadow-sm dark:bg-darkHover dark:bg-opacity-50 dark:backdrop-blur-lg dark:shadow-sm"
           >
             {/* Image */}
-            <img
-              src={project.bgImage}
-              alt={project.title}
-              className="lg:w-[350px] lg:h-[350px] sm:w-[180px] sm:h-[180px] bg-cover bg-center rounded-lg"
-            />
+            <div className="relative w-[350px] h-[350px]">
+              <Image
+                src={project.bgImage}
+                alt={project.title}
+                fill
+                className="object-cover object-center rounded-lg"
+                sizes="(max-width: 768px) 100vw, 350px"
+                priority={index < 2} // preload top images
+              />
+            </div>
 
             {/* Text */}
             <div className="flex flex-col justify-between flex-grow">
@@ -57,7 +96,7 @@ const Projects = ({ isDarkMode, language }) => {
                   {project.title}
                 </h1>
                 <p className="font-Ovo text-[16px] leading-5 mb-4 text-textLight dark:text-textDark text-justify">
-                  {language === "en"
+                  {language === 'en'
                     ? project.description
                     : project.description_id}
                 </p>
@@ -84,7 +123,7 @@ const Projects = ({ isDarkMode, language }) => {
                     rel="noopener noreferrer"
                     className="bg-darkHover hover:bg-darkTheme text-textDark dark:bg-lightHover dark:hover:bg-lightTheme dark:text-textLight font-bold p-3 rounded-full block transition-all duration-300"
                   >
-                    {projectsText[language].view}
+                    {typedProjectsText[language].view}
                   </a>
                 </div>
               </div>

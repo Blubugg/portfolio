@@ -3,15 +3,44 @@ import { assets, contactText } from "@/public/assets/assets"
 import Image from "next/image"
 import { motion } from "motion/react"
 
-const Contact = ({ isDarkMode, language }) => {
+// ✅ Define available languages
+type Language = "en" | "id"
+
+// ✅ Define structure for contact text translation
+interface ContactTextType {
+  titleSmall: string
+  titleBig: string
+  desc: string
+  namePlaceholder: string
+  emailPlaceholder: string
+  messagePlaceholder: string
+  submit: string
+  sending: string
+  success: string
+}
+
+// ✅ Define contactText object type
+type ContactTextObject = {
+  [key in Language]: ContactTextType
+}
+
+// ✅ Props for the component
+interface ContactProps {
+  isDarkMode: boolean
+  language: Language
+}
+
+const typedContactText = contactText as ContactTextObject
+
+const Contact: React.FC<ContactProps> = ({ isDarkMode, language }) => {
   const [result, setResult] = useState("")
 
   // 📩 Handle form submission
-  const onSubmit = async (event) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    setResult(contactText[language].sending)
-    const formData = new FormData(event.target)
+    setResult(typedContactText[language].sending)
 
+    const formData = new FormData(event.currentTarget)
     formData.append("access_key", "84805ca5-3b13-4a69-87d8-8c8f2e73a42e")
 
     const response = await fetch("https://api.web3forms.com/submit", {
@@ -22,10 +51,10 @@ const Contact = ({ isDarkMode, language }) => {
     const data = await response.json()
 
     if (data.success) {
-      setResult(contactText[language].success)
-      event.target.reset()
+      setResult(typedContactText[language].success)
+      event.currentTarget.reset()
     } else {
-      console.log("Error", data)
+      console.error("Error", data)
       setResult(data.message)
     }
   }
@@ -45,7 +74,7 @@ const Contact = ({ isDarkMode, language }) => {
         transition={{ duration: 0.5, delay: 0.3 }}
         className="text-center mb-2 text-lg font-Ovo"
       >
-        {contactText[language].titleSmall}
+        {typedContactText[language].titleSmall}
       </motion.h4>
 
       <motion.h2
@@ -54,7 +83,7 @@ const Contact = ({ isDarkMode, language }) => {
         transition={{ duration: 0.5, delay: 0.5 }}
         className="text-center text-5xl font-Ovo"
       >
-        {contactText[language].titleBig}
+        {typedContactText[language].titleBig}
       </motion.h2>
 
       {/* Description */}
@@ -64,7 +93,7 @@ const Contact = ({ isDarkMode, language }) => {
         transition={{ duration: 0.5, delay: 0.7 }}
         className="text-center max-w-2xl mx-auto mt-5 mb-12 font-Ovo"
       >
-        {contactText[language].desc}
+        {typedContactText[language].desc}
       </motion.p>
 
       {/* Form */}
@@ -83,7 +112,7 @@ const Contact = ({ isDarkMode, language }) => {
             type="text"
             className="flex-1 p-3 outline-none border-[0.5px] border-gray-400 rounded-md bg-lightHover dark:bg-darkHover"
             name="name"
-            placeholder={contactText[language].namePlaceholder}
+            placeholder={typedContactText[language].namePlaceholder}
             required
           />
           <motion.input
@@ -93,7 +122,7 @@ const Contact = ({ isDarkMode, language }) => {
             type="email"
             className="flex-1 p-3 outline-none border-[0.5px] border-gray-400 rounded-md bg-lightHover dark:bg-darkHover"
             name="email"
-            placeholder={contactText[language].emailPlaceholder}
+            placeholder={typedContactText[language].emailPlaceholder}
             required
           />
         </div>
@@ -105,7 +134,7 @@ const Contact = ({ isDarkMode, language }) => {
           rows={6}
           className="w-full p-4 outline-none border-[0.5px] border-gray-400 rounded-md bg-lightHover mb-6 dark:bg-darkHover"
           name="message"
-          placeholder={contactText[language].messagePlaceholder}
+          placeholder={typedContactText[language].messagePlaceholder}
           required
         ></motion.textarea>
 
@@ -115,7 +144,7 @@ const Contact = ({ isDarkMode, language }) => {
           type="submit"
           className="py-3 px-8 w-max flex items-center justify-between gap-2 bg-darkHover text-textDark rounded-full mx-auto hover:bg-darkTheme duration-500 dark:bg-darkHover dark:hover:bg-darkTheme"
         >
-          {contactText[language].submit}
+          {typedContactText[language].submit}
           <Image src={assets.right_arrow_white} alt="" className="w-4" />
         </motion.button>
 

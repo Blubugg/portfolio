@@ -1,19 +1,42 @@
-import React from 'react'
-import Image from 'next/image'
-import { assets, headerText } from "@/public/assets/assets"
-import { motion } from 'motion/react'
+import React from "react";
+import Image from "next/image";
+import { assets, headerText } from "@/public/assets/assets";
+import { motion } from "motion/react";
 
-const Header = ({ language }) => {
+// Supported languages
+type Language = "en" | "id";
+
+// Shape of each language's text
+interface HeaderTextContent {
+  hi: string;
+  role: string;
+  desc: string;
+  contact: string;
+  download: string;
+}
+
+// Proper mapped type for all languages
+type HeaderTextType = Record<Language, HeaderTextContent>;
+
+interface HeaderProps {
+  language: Language;
+}
+
+const Header: React.FC<HeaderProps> = ({ language }) => {
+  const typedHeaderText = headerText as HeaderTextType;
 
   return (
-    <div id="home" className="w-11/12 max-w-3xl max-h-[945px] text-center mx-auto h-screen flex flex-col items-center justify-center gap-4">
+    <div
+      id="home"
+      className="w-11/12 max-w-3xl max-h-[945px] text-center mx-auto h-screen flex flex-col items-center justify-center gap-4"
+    >
       {/* 👤 Profile Image */}
       <motion.div
         initial={{ scale: 0 }}
         whileInView={{ scale: 1 }}
         transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
       >
-        <Image src={assets.profile_img} alt="" className="rounded-full w-32" />
+        <Image src={assets.profile_img} alt="profile" className="rounded-full w-32" />
       </motion.div>
 
       {/* 👋 Greeting */}
@@ -23,8 +46,8 @@ const Header = ({ language }) => {
         transition={{ duration: 0.6, delay: 0.3 }}
         className="flex items-end gap-2 text-xl md:text-2xl mb-3 font-Ovo"
       >
-        {headerText[language].hi}
-        <Image src={assets.hand_icon} alt="" className="w-6" />
+        {typedHeaderText[language].hi}
+        <Image src={assets.hand_icon} alt="wave" className="w-6" />
       </motion.h3>
 
       {/* 🧠 Role */}
@@ -34,7 +57,7 @@ const Header = ({ language }) => {
         transition={{ duration: 0.8, delay: 0.5 }}
         className="text-3xl sm:text-6xl lg:text-[66px] font-Ovo"
       >
-        {headerText[language].role}
+        {typedHeaderText[language].role}
       </motion.h1>
 
       {/* 📝 Description */}
@@ -44,11 +67,12 @@ const Header = ({ language }) => {
         transition={{ duration: 0.6, delay: 0.7 }}
         className="max-w-2xl mx-auto font-Ovo"
       >
-        {headerText[language].desc}
+        {typedHeaderText[language].desc}
       </motion.p>
 
       {/* 🔘 Buttons */}
       <div className="flex flex-col sm:flex-row items-center gap-4 mt-4">
+        {/* 📩 Contact */}
         <motion.button whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
           <motion.a
             initial={{ y: 30, opacity: 0 }}
@@ -57,11 +81,12 @@ const Header = ({ language }) => {
             href="#contact"
             className="px-10 py-3 rounded-full bg-darkHover text-textDark flex items-center gap-2"
           >
-            {headerText[language].contact}
-            <Image src={assets.right_arrow_white} alt="" className="w-4" />
+            {typedHeaderText[language].contact}
+            <Image src={assets.right_arrow_white} alt="arrow" className="w-4" />
           </motion.a>
         </motion.button>
 
+        {/* 📄 Download */}
         <motion.button whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
           <motion.a
             initial={{ y: 30, opacity: 0 }}
@@ -71,13 +96,13 @@ const Header = ({ language }) => {
             download
             className="px-10 py-3 rounded-full flex items-center gap-2 bg-lightHover text-textLight"
           >
-            {headerText[language].download}
-            <Image src={assets.download_icon} alt="" className="w-4" />
+            {typedHeaderText[language].download}
+            <Image src={assets.download_icon} alt="download" className="w-4" />
           </motion.a>
         </motion.button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
