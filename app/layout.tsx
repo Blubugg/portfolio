@@ -3,11 +3,15 @@ import { Outfit, Ovo } from "next/font/google";
 import "./globals.css";
 
 const outfit = Outfit({
-  subsets: ["latin"], weight: ["400", "500", "600", "700"]
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-outfit", // optional but recommended
 });
 
 const ovo = Ovo({
-  subsets: ["latin"], weight: ["400"]
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-ovo",
 });
 
 export const metadata: Metadata = {
@@ -15,9 +19,11 @@ export const metadata: Metadata = {
   description: "Valentino's Portfolio",
 };
 
-export { outfit, ovo };
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" className="scroll-smooth">
       <body
